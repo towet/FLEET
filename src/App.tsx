@@ -485,22 +485,28 @@ function App() {
             ].map((service, index) => (
               <div 
                 key={index}
-                className="reveal bg-white rounded-xl p-8 group relative overflow-hidden border border-gray-100 hover:border-orange-500/20 transition-all duration-300"
+                className="reveal-from-bottom group relative overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105"
                 style={{ 
                   transitionDelay: `${index * 100}ms`,
                   boxShadow: '0 10px 30px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
                 }}
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-bl-full -mr-16 -mt-16 transition-all duration-300 group-hover:bg-orange-500/20"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center mb-8 reveal-from-left">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover rounded-xl"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent rounded-xl"></div>
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={service.image} 
+                    alt={service.title}
+                    className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="bg-orange-500 rounded-lg p-2 transform -translate-y-6 group-hover:-translate-y-8 transition-transform duration-300">
+                        {service.icon}
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2 text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
                     {service.title}
                   </h3>
@@ -512,10 +518,6 @@ function App() {
                       Learn More
                       <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
                     </Link>
-                    <div className="flex items-center gap-1">
-                      <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                      <span className="text-sm text-gray-500">Active</span>
-                    </div>
                   </div>
                 </div>
               </div>

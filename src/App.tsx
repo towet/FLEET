@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import { createContext, useContext } from 'react';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
 import FuelTracking from './components/FuelTracking';
@@ -28,6 +28,7 @@ import deezayLogo from './assets/Deezay.png';
 export const ContactContext = createContext<() => void>(() => {});
 
 function App() {
+  const navigate = useNavigate();
   useScrollAnimation();
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -42,339 +43,13 @@ function App() {
     }
   };
 
-  // Services data
-  const services = [
-    {
-      icon: <Droplet className="w-5 h-5" />,
-      title: "Real-Time Fuel Tracking",
-      description: "Monitor fuel levels and consumption in real-time",
-      link: "/fuel-tracking"
-    },
-    {
-      icon: <AlertTriangle className="w-5 h-5" />,
-      title: "Speed Monitoring",
-      description: "Get instant alerts for speed limit violations",
-      link: "/speeding-alarm"
-    },
-    {
-      icon: <Shield className="w-5 h-5" />,
-      title: "Security & Theft Prevention",
-      description: "Advanced security features for fleet protection",
-      link: "/security-theft"
-    },
-    {
-      icon: <Bell className="w-5 h-5" />,
-      title: "Smart Alerts",
-      description: "Intelligent notification system",
-      link: "/smart-alerts"
-    }
-  ];
-
-  // Use the scroll animation hook
-  useScrollAnimation();
-
-  const handleContactClick = () => {
-    setIsContactOpen(true);
-  };
-
-  useEffect(() => {
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-
-    document.querySelectorAll('.reveal, .slide-in-left, .slide-in-right, .fade-scale, .rotate-in').forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
-  // Add reveal on scroll functionality
-  useEffect(() => {
-    const handleScroll = () => {
-      const reveals = document.querySelectorAll('.reveal, .reveal-from-bottom, .reveal-from-left, .reveal-scale');
-      
-      reveals.forEach(reveal => {
-        const revealTop = reveal.getBoundingClientRect().top;
-        const revealPoint = 150;
-        
-        if (revealTop < window.innerHeight - revealPoint) {
-          reveal.classList.add('active');
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    // Trigger once on mount
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-white text-gray-800 pt-16 md:pt-20">
-      <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50 top-0">
-        <div className="container mx-auto px-4 sm:px-6 py-3">
-          <div className="flex items-center justify-between reveal-from-left">
-            {/* Logo */}
-            <div className="flex items-center gap-4 reveal-from-left">
-              <div className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-                <div className="relative bg-white p-0.5 rounded-full">
-                  <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-14 h-14 object-contain rounded-full" />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold text-orange-500">Deezay</span>
-                <span className="text-base font-medium text-gray-700">Ecofuel</span>
-              </div>
-            </div>
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center gap-8 stagger">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors">Home</Link>
-              
-              {/* Desktop Services Dropdown */}
-              <div className="relative">
-                <button 
-                  onClick={() => setIsServicesOpen(!isServicesOpen)}
-                  onBlur={() => setTimeout(() => setIsServicesOpen(false), 200)}
-                  className="text-gray-600 hover:text-orange-500 transition-colors flex items-center gap-1"
-                >
-                  Services
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                
-                {/* Desktop Services Dropdown Menu */}
-                {isServicesOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
-                    {services.map((service, index) => (
-                      <Link
-                        key={index}
-                        to={service.link}
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-orange-50 text-gray-600 hover:text-orange-500 transition-colors"
-                        onClick={() => setIsServicesOpen(false)}
-                      >
-                        <div className="text-orange-500">
-                          {service.icon}
-                        </div>
-                        <div>
-                          <div className="font-medium">{service.title}</div>
-                          <div className="text-sm text-gray-500">{service.description}</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <button 
-                onClick={() => scrollToSection('why-choose-us')} 
-                className="text-gray-600 hover:text-orange-500 transition-colors"
-              >
-                About
-              </button>
-              <button 
-                onClick={() => scrollToSection('steps')} 
-                className="text-gray-600 hover:text-orange-500 transition-colors"
-              >
-                Steps
-              </button>
-              <button
-                onClick={handleContactClick}
-                className="hidden lg:flex bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors bounce-in"
-              >
-                Contact Us
-              </button>
-            </div>
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-              aria-label="Toggle mobile menu"
-            >
-              <svg
-                className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
-          
-          {/* Mobile Menu */}
-          <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} py-4`}>
-            <div className="flex flex-col gap-4">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Home</Link>
-              {/* Mobile Services Menu */}
-              <div className="px-4">
-                <button
-                  onClick={() => setIsServicesOpen(!isServicesOpen)}
-                  className="flex items-center justify-between w-full text-gray-600 hover:text-orange-500 transition-colors py-2"
-                >
-                  <span>Services</span>
-                  <svg
-                    className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                
-                {/* Mobile Services Submenu */}
-                <div className={`pl-4 ${isServicesOpen ? 'block' : 'hidden'} space-y-2 mt-2`}>
-                  {services.map((service, index) => (
-                    <Link
-                      key={index}
-                      to={service.link}
-                      className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-orange-50 text-gray-600 hover:text-orange-500 transition-colors"
-                      onClick={() => {
-                        setIsServicesOpen(false);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      <div className="text-orange-500">
-                        {service.icon}
-                      </div>
-                      <div>
-                        <div className="font-medium">{service.title}</div>
-                        <div className="text-sm text-gray-500">{service.description}</div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <button 
-                onClick={() => scrollToSection('why-choose-us')} 
-                className="text-left px-4 text-gray-600 hover:text-orange-500 transition-colors"
-              >
-                About
-              </button>
-              <button 
-                onClick={() => scrollToSection('steps')} 
-                className="text-left px-4 text-gray-600 hover:text-orange-500 transition-colors"
-              >
-                Steps
-              </button>
-              <button
-                onClick={() => {
-                  handleContactClick();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors mx-4"
-              >
-                Contact Us
-              </button>
-            </div>
-          </div>
+  const MainContent = () => (
+    <>
+      {/* Hero Section */}
+      <header className="pt-28 pb-24 bg-gradient-to-br from-orange-50 to-white relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent"></div>
         </div>
-      </nav>
-      <WhatsAppButton phoneNumber="+254795704273" />
-
-      {/* Contact Popup */}
-      {isContactOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md p-8 relative transform transition-all duration-300 scale-100 shadow-2xl">
-            <button
-              onClick={() => setIsContactOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="12" fill="#F3F4F6"/>
-                <path d="M16 8L8 16M8 8L16 16" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </button>
-            
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Contact Us</h2>
-              <p className="text-gray-600">Choose your preferred way to reach us</p>
-            </div>
-
-            <div className="space-y-6">
-              <a
-                href="https://wa.me/254795704273"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-6 bg-green-50 rounded-xl hover:bg-green-100 transition-all duration-300 group"
-              >
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                  </svg>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-xl font-semibold text-green-600 mb-1">WhatsApp</h3>
-                  <p className="text-green-700">Chat with us instantly</p>
-                </div>
-                <ArrowRight className="w-6 h-6 text-green-500 group-hover:translate-x-2 transition-transform duration-300" />
-              </a>
-
-              <a
-                href="mailto:frankyfreaky103@gmail.com"
-                className="flex items-center p-6 bg-red-50 rounded-xl hover:bg-red-100 transition-all duration-300 group"
-              >
-                <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0 mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                  </svg>
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-xl font-semibold text-red-600 mb-1">Gmail</h3>
-                  <p className="text-red-700">Send us an email</p>
-                </div>
-                <ArrowRight className="w-6 h-6 text-red-500 group-hover:translate-x-2 transition-transform duration-300" />
-              </a>
-            </div>
-
-            <div className="mt-8 text-center">
-              <p className="text-sm text-gray-500">We typically respond within 24 hours</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <Routes>
-        <Route path="/fuel-tracking" element={<FuelTracking />} />
-        <Route path="/speeding-alarm" element={<SpeedingAlarm />} />
-        <Route path="/security-theft" element={<SecurityTheft />} />
-        <Route path="/geo-fencing" element={<GeoFencing />} />
-        <Route path="/smart-alerts" element={<SmartAlerts />} />
-        <Route path="/speed-monitoring" element={<SpeedMonitoring />} />
-        <Route path="/live-tracking" element={<LiveTracking />} />
-        <Route path="/" element={
-          <>
-            {/* Hero Section */}
-            <header className="pt-28 pb-24 bg-gradient-to-br from-orange-50 to-white relative overflow-hidden">
-              <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-transparent"></div>
-              </div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 text-center lg:text-left reveal">
@@ -387,7 +62,7 @@ function App() {
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start stagger">
                 <button
-                  onClick={handleContactClick}
+                  onClick={() => setIsContactOpen(true)}
                   className="px-8 py-4 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 
                            transition-all duration-300 flex items-center gap-2 group"
                 >
@@ -794,17 +469,8 @@ function App() {
             opacity: 1;
             transform: scale(1);
           }
-        }
-
-        @media (max-width: 768px) {
-          .reveal, .reveal-from-bottom, .reveal-from-left, .reveal-scale {
-            transition-delay: 0ms !important;
-          }
-        }
-      `}} />
-    </section>
-
-
+        `}} />
+      </section>
 
       {/* Testimonials Section */}
       <section id="services" className="py-16 md:py-24 bg-gray-50 reveal-scale">
@@ -890,7 +556,7 @@ function App() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center stagger">
               <button 
-                onClick={handleContactClick}
+                onClick={() => setIsContactOpen(true)}
                 className="bg-white/90 text-blue-900 hover:bg-white px-8 py-3 rounded-lg text-lg font-semibold 
                          transition-all transform hover:scale-105 hover:shadow-lg flex items-center group bounce-in"
               >
@@ -898,7 +564,7 @@ function App() {
                 <ArrowRight className="w-5 h-5 ml-2 transform transition-transform group-hover:translate-x-1" />
               </button>
               <button 
-                onClick={handleContactClick}
+                onClick={() => setIsContactOpen(true)}
                 className="border border-white/20 text-white hover:bg-white/10 px-8 py-3 rounded-lg 
                          transition-all backdrop-blur-sm bounce-in delay-200"
               >
@@ -926,8 +592,400 @@ function App() {
           </div>
         </div>
       </footer>
-        </>} />
+    </>
+  );
+
+  const handleContactClick = () => {
+    setIsContactOpen(true);
+  };
+
+  useEffect(() => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.reveal, .slide-in-left, .slide-in-right, .fade-scale, .rotate-in').forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Add reveal on scroll functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      const reveals = document.querySelectorAll('.reveal, .reveal-from-bottom, .reveal-from-left, .reveal-scale');
+      
+      reveals.forEach(reveal => {
+        const revealTop = reveal.getBoundingClientRect().top;
+        const revealPoint = 150;
+        
+        if (revealTop < window.innerHeight - revealPoint) {
+          reveal.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Trigger once on mount
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white text-gray-800 pt-16 md:pt-20">
+      <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50 top-0">
+        <div className="container mx-auto px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between reveal-from-left">
+            {/* Logo */}
+            <div className="flex items-center gap-4 reveal-from-left">
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <div className="relative bg-white p-0.5 rounded-full">
+                  <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-14 h-14 object-contain" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold text-orange-500">Deezay</span>
+                <span className="text-base font-medium text-gray-700">Ecofuel</span>
+              </div>
+            </div>
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center gap-8 stagger">
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors">Home</Link>
+              
+              {/* Desktop Services Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className="text-gray-600 hover:text-orange-500 transition-colors flex items-center gap-1"
+                >
+                  Services
+                  <svg className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {/* Desktop Services Dropdown Menu */}
+                {isServicesOpen && (
+                  <div 
+                    className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50"
+                    onMouseLeave={() => setIsServicesOpen(false)}
+                  >
+                    {[
+                      {
+                        icon: <Droplet className="w-5 h-5" />,
+                        title: "Real-Time Fuel Tracking",
+                        description: "Monitor fuel levels and consumption in real-time",
+                        link: "/fuel-tracking"
+                      },
+                      {
+                        icon: <Target className="w-5 h-5" />,
+                        title: "Live Tracking",
+                        description: "Real-time vehicle location tracking",
+                        link: "/live-tracking"
+                      },
+                      {
+                        icon: <AlertTriangle className="w-5 h-5" />,
+                        title: "Speeding Alarm",
+                        description: "Get instant alerts for speed limit violations",
+                        link: "/speeding-alarm"
+                      },
+                      {
+                        icon: <Shield className="w-5 h-5" />,
+                        title: "Security & Theft Prevention",
+                        description: "Advanced security features for fleet protection",
+                        link: "/security-theft"
+                      },
+                      {
+                        icon: <MapPin className="w-5 h-5" />,
+                        title: "Geo Fencing",
+                        description: "Set up virtual perimeters for your fleet",
+                        link: "/geo-fencing"
+                      },
+                      {
+                        icon: <Bell className="w-5 h-5" />,
+                        title: "Smart Alerts",
+                        description: "Intelligent notification system",
+                        link: "/smart-alerts"
+                      },
+                      {
+                        icon: <TrendingUp className="w-5 h-5" />,
+                        title: "Speed Monitoring",
+                        description: "Track and analyze vehicle speeds",
+                        link: "/speed-monitoring"
+                      }
+                    ].map((service, index) => (
+                      <Link
+                        key={index}
+                        to={service.link}
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-orange-50 text-gray-600 hover:text-orange-500 transition-colors"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setIsServicesOpen(false);
+                          navigate(service.link);
+                        }}
+                      >
+                        <div className="text-orange-500">
+                          {service.icon}
+                        </div>
+                        <div>
+                          <div className="font-medium">{service.title}</div>
+                          <div className="text-sm text-gray-500">{service.description}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button 
+                onClick={() => scrollToSection('why-choose-us')} 
+                className="text-gray-600 hover:text-orange-500 transition-colors"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => scrollToSection('steps')} 
+                className="text-gray-600 hover:text-orange-500 transition-colors"
+              >
+                Steps
+              </button>
+              <button
+                onClick={handleContactClick}
+                className="hidden lg:flex bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors bounce-in"
+              >
+                Contact Us
+              </button>
+            </div>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Toggle mobile menu"
+            >
+              <svg
+                className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                {isMobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+          
+          {/* Mobile Menu */}
+          <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} py-4`}>
+            <div className="flex flex-col gap-4">
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Home</Link>
+              {/* Mobile Services Menu */}
+              <div className="px-4">
+                <button
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className="flex items-center justify-between w-full text-gray-600 hover:text-orange-500 transition-colors py-2"
+                >
+                  <span>Services</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {/* Mobile Services Submenu */}
+                <div className={`pl-4 ${isServicesOpen ? 'block' : 'hidden'} space-y-2 mt-2`}>
+                  {[
+                    {
+                      icon: <Droplet className="w-5 h-5" />,
+                      title: "Real-Time Fuel Tracking",
+                      description: "Monitor fuel levels and consumption in real-time",
+                      link: "/fuel-tracking"
+                    },
+                    {
+                      icon: <Target className="w-5 h-5" />,
+                      title: "Live Tracking",
+                      description: "Real-time vehicle location tracking",
+                      link: "/live-tracking"
+                    },
+                    {
+                      icon: <AlertTriangle className="w-5 h-5" />,
+                      title: "Speeding Alarm",
+                      description: "Get instant alerts for speed limit violations",
+                      link: "/speeding-alarm"
+                    },
+                    {
+                      icon: <Shield className="w-5 h-5" />,
+                      title: "Security & Theft Prevention",
+                      description: "Advanced security features for fleet protection",
+                      link: "/security-theft"
+                    },
+                    {
+                      icon: <MapPin className="w-5 h-5" />,
+                      title: "Geo Fencing",
+                      description: "Set up virtual perimeters for your fleet",
+                      link: "/geo-fencing"
+                    },
+                    {
+                      icon: <Bell className="w-5 h-5" />,
+                      title: "Smart Alerts",
+                      description: "Intelligent notification system",
+                      link: "/smart-alerts"
+                    },
+                    {
+                      icon: <TrendingUp className="w-5 h-5" />,
+                      title: "Speed Monitoring",
+                      description: "Track and analyze vehicle speeds",
+                      link: "/speed-monitoring"
+                    }
+                  ].map((service, index) => (
+                    <Link
+                      key={index}
+                      to={service.link}
+                      className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-orange-50 text-gray-600 hover:text-orange-500 transition-colors"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsServicesOpen(false);
+                        setIsMobileMenuOpen(false);
+                        navigate(service.link);
+                      }}
+                    >
+                      <div className="text-orange-500">
+                        {service.icon}
+                      </div>
+                      <div>
+                        <div className="font-medium">{service.title}</div>
+                        <div className="text-sm text-gray-500">{service.description}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <button 
+                onClick={() => scrollToSection('why-choose-us')} 
+                className="text-left px-4 text-gray-600 hover:text-orange-500 transition-colors"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => scrollToSection('steps')} 
+                className="text-left px-4 text-gray-600 hover:text-orange-500 transition-colors"
+              >
+                Steps
+              </button>
+              <button
+                onClick={() => {
+                  handleContactClick();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors mx-4"
+              >
+                Contact Us
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <WhatsAppButton phoneNumber="+254795704273" />
+
+      <Routes>
+        <Route path="/" element={<MainContent />} />
+        <Route path="/fuel-tracking" element={<FuelTracking />} />
+        <Route path="/live-tracking" element={<LiveTracking />} />
+        <Route path="/speeding-alarm" element={<SpeedingAlarm />} />
+        <Route path="/security-theft" element={<SecurityTheft />} />
+        <Route path="/geo-fencing" element={<GeoFencing />} />
+        <Route path="/smart-alerts" element={<SmartAlerts />} />
+        <Route path="/speed-monitoring" element={<SpeedMonitoring />} />
       </Routes>
+
+      {/* Contact Popup */}
+      {isContactOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-md p-8 relative transform transition-all duration-300 scale-100 shadow-2xl">
+            <button
+              onClick={() => setIsContactOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="12" fill="#F3F4F6"/>
+                <path d="M16 8L8 16M8 8L16 16" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
+            
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Contact Us</h2>
+              <p className="text-gray-600">Choose your preferred way to reach us</p>
+            </div>
+
+            <div className="space-y-6">
+              <a
+                href="https://wa.me/254795704273"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center p-6 bg-green-50 rounded-xl hover:bg-green-100 transition-all duration-300 group"
+              >
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mr-6 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                  </svg>
+                </div>
+                <div className="flex-grow">
+                  <h3 className="text-xl font-semibold text-green-600 mb-1">WhatsApp</h3>
+                  <p className="text-green-700">Chat with us instantly</p>
+                </div>
+                <ArrowRight className="w-6 h-6 text-green-500 group-hover:translate-x-2 transition-transform duration-300" />
+              </a>
+
+              <a
+                href="mailto:frankyfreaky103@gmail.com"
+                className="flex items-center p-6 bg-red-50 rounded-xl hover:bg-red-100 transition-all duration-300 group"
+              >
+                <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0 mr-6 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <div className="flex-grow">
+                  <h3 className="text-xl font-semibold text-red-600 mb-1">Gmail</h3>
+                  <p className="text-red-700">Send us an email</p>
+                </div>
+                <ArrowRight className="w-6 h-6 text-red-500 group-hover:translate-x-2 transition-transform duration-300" />
+              </a>
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-500">We typically respond within 24 hours</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import SmartAlerts from './components/SmartAlerts';
 import SpeedMonitoring from './components/SpeedMonitoring';
 import LiveTracking from './components/LiveTracking';
 import About from './components/About';
+import ContactUs from './components/ContactUs';
 import {
   Shield,
   TrendingUp,
@@ -219,7 +220,7 @@ function App() {
                 <span className="text-orange-500 font-semibold text-lg mb-4 block reveal-from-bottom">Why Choose Us</span>
                 <h2 className="text-4xl font-bold mb-6 text-gray-900">Transform Your Fleet with Deezay Ecofuel</h2>
                 <p className="text-gray-600 text-lg leading-relaxed">
-                  Leading innovator in real-time fuel monitoring and GPS fleet tracking solutions. Our advanced system helps businesses reduce fuel costs by up to 30% through precise consumption tracking, anti-theft protection, and comprehensive fleet management. Join thousands of companies already optimizing their operations with our proven technology.
+                  Leading innovator in real-time fuel monitoring and GPS fleet tracking solutions. Our advanced system helps businesses reduce fuel costs by up to 30% through precise consumption tracking, anti-theft protection, and comprehensive fleet management.
                 </p>
               </div>
               
@@ -635,11 +636,7 @@ function App() {
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
-                          <path
-                            fillRule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clipRule="evenodd"
-                          />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l8-8 8 8" />
                         </svg>
                       </div>
                     </div>
@@ -815,7 +812,7 @@ function App() {
             {/* Navigation Links */}
             <div className="hidden md:flex items-center gap-8 stagger">
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors">Home</Link>
-              
+              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors">Contact Us</Link>
               {/* Desktop Services Dropdown */}
               <div className="relative">
                 <button 
@@ -976,6 +973,7 @@ function App() {
           <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} py-4`}>
             <div className="flex flex-col gap-4">
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Home</Link>
+              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Contact Us</Link>
               {/* Mobile Services Menu */}
               <div className="px-4">
                 <button
@@ -1087,6 +1085,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<MainContent />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/fuel-tracking" element={<FuelTracking setIsContactOpen={setIsContactOpen} />} />
         <Route path="/live-tracking" element={<LiveTracking setIsContactOpen={setIsContactOpen} />} />
         <Route path="/speeding-alarm" element={<SpeedingAlarm setIsContactOpen={setIsContactOpen} />} />

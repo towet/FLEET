@@ -22,7 +22,7 @@ import {
 
 import heroImage from './assets/hero.png';
 import WhatsAppButton from './components/WhatsAppButton';
-import deezayLogo from './assets/Deezay.png';
+import deezayLogo from './assets/Defts Final Logo\' PNG-01.png';
 
 function App() {
   const navigate = useNavigate();
@@ -402,7 +402,7 @@ function App() {
                         <ArrowRight className="w-3 h-3 md:w-4 md:h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
                       </button>
                       <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-500 rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                         <span className="text-xs md:text-sm text-gray-500">Active</span>
                       </div>
                     </div>
@@ -547,6 +547,157 @@ function App() {
         </div>
       </section>
 
+      {/* FAQs Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-white to-orange-50/30 relative overflow-hidden reveal-scale">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-br from-orange-100/50 to-orange-200/30 rounded-bl-[100px] transform rotate-6 animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-to-tr from-orange-100/50 to-orange-200/30 rounded-tr-[100px] transform -rotate-6 animate-pulse" style={{ animationDelay: '1s' }}></div>
+          {/* Floating particles */}
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-orange-500/20 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `float ${5 + Math.random() * 10}s linear infinite`,
+                animationDelay: `${Math.random() * 5}s`
+              }}
+            ></div>
+          ))}
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16 reveal">
+            <span className="text-orange-500 font-semibold text-lg mb-4 block reveal-from-bottom">Got Questions?</span>
+            <h2 className="text-4xl font-bold mb-6 text-gray-900 reveal-from-bottom" style={{ transitionDelay: '200ms' }}>
+              Frequently Asked Questions
+            </h2>
+            <p className="text-gray-600 text-lg reveal-from-bottom" style={{ transitionDelay: '400ms' }}>
+              Find answers to common questions about our fleet management and fuel tracking solutions.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto grid gap-6">
+            {[
+              {
+                question: "How accurate is your fuel tracking system?",
+                answer: "Our fuel tracking system is highly accurate with a margin of error less than 1%. We use advanced sensors and real-time monitoring to ensure precise measurements of fuel levels and consumption.",
+                icon: "📊"
+              },
+              {
+                question: "What kind of vehicles can be equipped with your system?",
+                answer: "Our system is compatible with most vehicle types including trucks, buses, construction equipment, and passenger vehicles. We provide custom solutions based on your fleet's specific requirements.",
+                icon: "🚛"
+              },
+              {
+                question: "How long does the installation process take?",
+                answer: "Typically, installation takes 2-3 hours per vehicle. We work around your schedule to minimize disruption to your operations and can perform installations at your preferred location.",
+                icon: "⚙️"
+              },
+              {
+                question: "What kind of support do you provide?",
+                answer: "We offer 24/7 technical support, regular maintenance checks, and continuous system monitoring. Our team is always available to help with any questions or issues you may encounter.",
+                icon: "🛠️"
+              },
+              {
+                question: "Can I monitor my fleet in real-time?",
+                answer: "Yes, our system provides real-time monitoring through our web platform and mobile app. You can track fuel levels, location, speed, and other vital metrics instantly from anywhere.",
+                icon: "📱"
+              },
+              {
+                question: "What reports and analytics are available?",
+                answer: "We provide comprehensive reports including fuel consumption trends, cost analysis, driver behavior, route optimization, and custom reports tailored to your needs. All data can be exported in various formats.",
+                icon: "📈"
+              }
+            ].map((faq, index) => (
+              <div
+                key={index}
+                className="bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 hover:border-orange-500/50 transition-all duration-500 shadow-sm hover:shadow-xl reveal-from-bottom group"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <details className="group/item">
+                  <summary className="flex items-center justify-between gap-3 p-6 cursor-pointer marker:content-none">
+                    <div className="flex items-center gap-4">
+                      <span className="text-2xl group-hover/item:scale-125 transition-transform duration-300">
+                        {faq.icon}
+                      </span>
+                      <h3 className="text-lg font-semibold text-gray-900 group-hover/item:text-orange-500 transition-colors duration-300">
+                        {faq.question}
+                      </h3>
+                    </div>
+                    <div className="relative">
+                      <div className="w-8 h-8 rounded-full bg-orange-100 group-hover/item:bg-orange-200 transition-colors duration-300 flex items-center justify-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-5 h-5 text-orange-500 transition-transform duration-500 group-hover/item:scale-110 group-open/item:rotate-180"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </summary>
+
+                  <div className="px-6 pb-6 pt-2 space-y-4">
+                    <div className="w-16 h-0.5 bg-gradient-to-r from-orange-500/60 to-transparent"></div>
+                    <p className="text-gray-600 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                    <div className="flex items-center gap-4 pt-4">
+                      <button className="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                        Learn More
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                        <span className="text-sm text-gray-500">Updated Recently</span>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 text-center reveal-scale">
+            <div className="inline-flex items-center gap-6 bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <div className="w-16 h-16 bg-orange-500/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div className="text-left">
+                <p className="text-gray-600 mb-2 text-lg">Still have questions?</p>
+                <button
+                  onClick={() => setIsContactOpen(true)}
+                  className="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-2.5 rounded-lg hover:bg-orange-600 transition-all transform group-hover:translate-x-1"
+                >
+                  Contact Our Experts
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Add custom animation keyframes */}
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-1000%) rotate(360deg); opacity: 0; }
+          }
+        `}} />
+      </section>
+
       {/* CTA Section */}
       <section className="relative py-16 bg-gradient-to-br from-blue-900 via-blue-900/95 to-blue-800/90">
         {/* Subtle pattern overlay */}
@@ -594,11 +745,7 @@ function App() {
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center mb-8 reveal-scale">
             <div className="flex items-center gap-3">
-              <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-12 h-12 object-contain" />
-              <div className="flex flex-col">
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">Deezay</h2>
-                <span className="text-lg font-semibold text-gray-200">Ecofuel</span>
-              </div>
+              <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-auto h-16" />
             </div>
           </div>
           <div className="text-center text-gray-400">
@@ -661,15 +808,8 @@ function App() {
           <div className="flex items-center justify-between reveal-from-left">
             {/* Logo */}
             <div className="flex items-center gap-4 reveal-from-left">
-              <div className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-                <div className="relative bg-white p-0.5 rounded-full">
-                  <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-14 h-14 object-contain" />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-bold text-orange-500">Deezay</span>
-                <span className="text-base font-medium text-gray-700">Ecofuel</span>
+              <div>
+                <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-auto h-16" />
               </div>
             </div>
             {/* Navigation Links */}
@@ -976,7 +1116,7 @@ function App() {
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                  <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                 </svg>
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Request a Quote</h2>
@@ -1155,8 +1295,8 @@ function App() {
                 className="flex items-center p-6 bg-blue-50 rounded-xl hover:bg-blue-100 transition-all duration-300 group"
               >
                 <div className="w-16 h-16 bg-[#0088cc] rounded-full flex items-center justify-center flex-shrink-0 mr-6 group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-.985-.648-1.547-1.053-2.5-1.683-1.106-.73-.39-1.131.24-1.785.166-.173 3.04-2.785 3.095-3.023.007-.03.014-.147-.055-.209-.07-.062-.202-.041-.288-.024-.123.024-2.07 1.314-5.841 3.87-.553.38-1.052.566-1.499.557-.493-.01-1.443-.281-2.149-.513-.873-.285-1.564-.434-1.503-.916.032-.249.376-.509 1.032-.78 4.053-1.764 6.754-2.936 8.104-3.516 3.854-1.658 4.654-1.944 5.176-1.955.115-.002.371.026.536.16.135.109.202.309.225.47.023.162.054.665.054.665z"/>
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
                 <div className="flex-grow">
@@ -1173,7 +1313,7 @@ function App() {
               >
                 <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0 mr-6 group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div className="flex-grow">

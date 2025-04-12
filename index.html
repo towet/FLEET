@@ -7,6 +7,15 @@
     <title>Vite + React + TS</title>
   </head>
   <body>
+    <!-- A little help for the Netlify post-processing bots -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+      <select name="service"></select>
+    </form>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

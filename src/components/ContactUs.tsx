@@ -37,24 +37,18 @@ const ContactUs = () => {
     });
   };
 
-  const encode = (data: { [key: string]: string }) => {
-    return Object.keys(data)
-      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-      .join("&");
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
+      formData.append('form-name', 'contact');
+
       const response = await fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 
-          'form-name': 'contact',
-          ...formData
-        })
+        body: formData
       });
 
       if (!response.ok) {
@@ -70,6 +64,9 @@ const ContactUs = () => {
         message: '',
         service: 'fuel-tracking'
       });
+
+      // Reset the form
+      form.reset();
     } catch (error) {
       console.error('Error:', error);
       setSubmitStatus('error');

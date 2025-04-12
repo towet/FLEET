@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Gauge, AlertTriangle, TrendingUp, Award, Clock, Map, BarChart2, Shield } from 'lucide-react';
 
-interface SpeedMonitoringProps {
-  setIsContactOpen: (open: boolean) => void;
-}
+import { useNavigate } from 'react-router-dom';
 
-const SpeedMonitoring: React.FC<SpeedMonitoringProps> = ({ setIsContactOpen }) => {
+interface SpeedMonitoringProps {}
+
+const SpeedMonitoring: React.FC<SpeedMonitoringProps> = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -149,7 +150,7 @@ const SpeedMonitoring: React.FC<SpeedMonitoringProps> = ({ setIsContactOpen }) =
             Start monitoring your fleet's speed and improve safety today
           </p>
           <button
-            onClick={() => setIsContactOpen(true)}
+            onClick={() => navigate('/contact')}
             className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             Get Started

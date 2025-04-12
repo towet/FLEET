@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Map, Navigation, Clock, Activity, BarChart2, Radio } from 'lucide-react';
 
-interface LiveTrackingProps {
-  setIsContactOpen: (open: boolean) => void;
-}
+import { useNavigate } from 'react-router-dom';
 
-const LiveTracking: React.FC<LiveTrackingProps> = ({ setIsContactOpen }) => {
+interface LiveTrackingProps {}
+
+const LiveTracking: React.FC<LiveTrackingProps> = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -83,7 +84,7 @@ const LiveTracking: React.FC<LiveTrackingProps> = ({ setIsContactOpen }) => {
             <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-lg opacity-90 mb-6">Experience the power of real-time fleet tracking</p>
             <button
-              onClick={() => setIsContactOpen(true)}
+              onClick={() => navigate('/contact')}
               className="bg-white text-orange-500 hover:bg-orange-50 px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               Get Started

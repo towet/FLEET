@@ -78,27 +78,27 @@ const ContactUs = () => {
       label: 'Phone',
       value: '+254 712 345 678',
       link: 'tel:+254712345678',
-      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
+      color: 'bg-gradient-to-r from-blue-400 to-blue-600'
     },
     {
       icon: Mail,
       label: 'Email',
       value: 'frankyfreaky103@gmail.com',
       link: 'mailto:frankyfreaky103@gmail.com',
-      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
+      color: 'bg-gradient-to-r from-red-400 to-red-600'
     },
     {
       icon: MapPin,
       label: 'Location',
       value: 'Addis Ababa, Ethiopia',
       link: 'https://maps.google.com/?q=Addis+Ababa,Ethiopia',
-      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
+      color: 'bg-gradient-to-r from-green-400 to-green-600'
     },
     {
       icon: Clock,
       label: 'Working Hours',
       value: 'Mon-Fri: 8AM - 6PM',
-      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
+      color: 'bg-gradient-to-r from-purple-400 to-purple-600'
     }
   ];
 
@@ -107,25 +107,25 @@ const ContactUs = () => {
       icon: Instagram,
       label: 'Instagram',
       link: 'https://instagram.com/your-handle',
-      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
+      color: 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500'
     },
     {
       icon: Facebook,
       label: 'Facebook',
       link: 'https://facebook.com/your-page',
-      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
+      color: 'bg-blue-600'
     },
     {
       icon: MessageCircle,
       label: 'WhatsApp',
       link: 'https://wa.me/254712345678',
-      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
+      color: 'bg-green-500'
     },
     {
       icon: Send,
       label: 'Telegram',
       link: 'https://t.me/your-handle',
-      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
+      color: 'bg-blue-400'
     }
   ];
 
@@ -243,7 +243,7 @@ const ContactUs = () => {
                   Email Address
                 </label>
                 <div className="relative">
-                  <AtSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <AtSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5" />
                   <input
                     type="email"
                     id="email"
@@ -262,7 +262,7 @@ const ContactUs = () => {
                   Phone Number
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500 w-5 h-5" />
                   <input
                     type="tel"
                     id="phone"
@@ -280,7 +280,7 @@ const ContactUs = () => {
                   Service of Interest
                 </label>
                 <div className="relative">
-                  <Sparkles className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <Sparkles className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-500 w-5 h-5" />
                   <select
                     id="service"
                     name="service"
@@ -304,7 +304,7 @@ const ContactUs = () => {
                   Subject
                 </label>
                 <div className="relative">
-                  <MessageSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <MessageSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-500 w-5 h-5" />
                   <input
                     type="text"
                     id="subject"
@@ -323,7 +323,7 @@ const ContactUs = () => {
                   Message
                 </label>
                 <div className="relative">
-                  <MessageCircle className="absolute left-3 top-3 text-orange-500 w-5 h-5" />
+                  <MessageCircle className="absolute left-3 top-3 text-teal-500 w-5 h-5" />
                   <textarea
                     id="message"
                     name="message"

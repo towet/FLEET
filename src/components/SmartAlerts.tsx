@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Bell, AlertTriangle, Zap, Shield, MessageSquare, Settings, Smartphone, Mail } from 'lucide-react';
 
-interface SmartAlertsProps {
-  setIsContactOpen: (open: boolean) => void;
-}
+import { useNavigate } from 'react-router-dom';
 
-const SmartAlerts: React.FC<SmartAlertsProps> = ({ setIsContactOpen }) => {
+interface SmartAlertsProps {}
+
+const SmartAlerts: React.FC<SmartAlertsProps> = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -125,7 +126,7 @@ const SmartAlerts: React.FC<SmartAlertsProps> = ({ setIsContactOpen }) => {
             Never miss a critical alert with our smart notification system
           </p>
           <button
-            onClick={() => setIsContactOpen(true)}
+            onClick={() => navigate('/contact')}
             className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             Get Started

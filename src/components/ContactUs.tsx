@@ -8,6 +8,13 @@ import {
   Facebook,
   MessageCircle,
   Clock,
+  User,
+  AtSign,
+  MessageSquare,
+  Sparkles,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
 } from 'lucide-react';
 
 const ContactUs = () => {
@@ -71,27 +78,27 @@ const ContactUs = () => {
       label: 'Phone',
       value: '+254 712 345 678',
       link: 'tel:+254712345678',
-      color: 'bg-blue-500'
+      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
     },
     {
       icon: Mail,
       label: 'Email',
       value: 'frankyfreaky103@gmail.com',
       link: 'mailto:frankyfreaky103@gmail.com',
-      color: 'bg-red-500'
+      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
     },
     {
       icon: MapPin,
       label: 'Location',
-      value: 'Nairobi, Kenya',
-      link: 'https://maps.google.com/?q=Nairobi,Kenya',
-      color: 'bg-green-500'
+      value: 'Addis Ababa, Ethiopia',
+      link: 'https://maps.google.com/?q=Addis+Ababa,Ethiopia',
+      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
     },
     {
       icon: Clock,
       label: 'Working Hours',
       value: 'Mon-Fri: 8AM - 6PM',
-      color: 'bg-purple-500'
+      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
     }
   ];
 
@@ -100,38 +107,40 @@ const ContactUs = () => {
       icon: Instagram,
       label: 'Instagram',
       link: 'https://instagram.com/your-handle',
-      color: 'bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500'
+      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
     },
     {
       icon: Facebook,
       label: 'Facebook',
       link: 'https://facebook.com/your-page',
-      color: 'bg-blue-600'
+      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
     },
     {
       icon: MessageCircle,
       label: 'WhatsApp',
       link: 'https://wa.me/254712345678',
-      color: 'bg-green-500'
+      color: 'bg-gradient-to-r from-orange-500 to-orange-600'
     },
     {
       icon: Send,
       label: 'Telegram',
       link: 'https://t.me/your-handle',
-      color: 'bg-blue-400'
+      color: 'bg-gradient-to-r from-orange-400 to-orange-500'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto mb-16">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <div className="text-center relative">
+          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-orange-500/10 rounded-full blur-xl"></div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 relative animate-fade-in">
             Get in Touch
-            <span className="block text-orange-500">We'd Love to Hear From You</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600 mt-2">We'd Love to Hear From You</span>
+            <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-orange-500/5 rounded-full blur-xl"></div>
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto relative animate-slide-up">
             Have questions about our services? Want to start optimizing your fleet? 
             We're here to help and answer any question you might have.
           </p>
@@ -144,10 +153,10 @@ const ContactUs = () => {
           {contactMethods.map((method, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
             >
               <div className="p-6">
-                <div className={`${method.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+                <div className={`${method.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4 transform hover:scale-110 transition-transform duration-300`}>
                   {React.createElement(method.icon, { className: 'w-6 h-6 text-white' })}
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{method.label}</h3>
@@ -181,7 +190,7 @@ const ContactUs = () => {
               rel="noopener noreferrer"
               className="group"
             >
-              <div className={`${social.color} p-4 rounded-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
+              <div className={`${social.color} p-4 rounded-lg transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-orange-500/10`}>
                 {React.createElement(social.icon, { className: 'w-6 h-6 text-white' })}
               </div>
               <span className="sr-only">{social.label}</span>
@@ -191,12 +200,13 @@ const ContactUs = () => {
       </div>
 
       {/* Contact Form */}
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600"></div>
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          {/* Map or Image Section */}
+          {/* Map Section */}
           <div className="relative h-64 lg:h-full">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19036273276!2d36.70730744863281!3d-1.3031933000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sus!4v1650000000000!5m2!1sen!2sus"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126083.2423731179!2d38.6894684!3d8.9733158!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa%2C%20Ethiopia!5e0!3m2!1sen!2sus!4v1650000000000!5m2!1sen!2sus"
               className="absolute inset-0 w-full h-full"
               style={{ border: 0 }}
               allowFullScreen
@@ -213,122 +223,155 @@ const ContactUs = () => {
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name
                 </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="John Doe"
-                />
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white"
+                    placeholder="John Doe"
+                  />
+                </div>
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                   Email Address
                 </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="john@example.com"
-                />
+                <div className="relative">
+                  <AtSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white"
+                    placeholder="john@example.com"
+                  />
+                </div>
               </div>
 
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                   Phone Number
                 </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="+254 712 345 678"
-                />
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white"
+                    placeholder="+254 712 345 678"
+                  />
+                </div>
               </div>
 
               <div>
                 <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
                   Service of Interest
                 </label>
-                <select
-                  id="service"
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                >
-                  <option value="fuel-tracking">Real-Time Fuel Tracking</option>
-                  <option value="live-tracking">Live Vehicle Tracking</option>
-                  <option value="speeding-alarm">Speeding Alarm</option>
-                  <option value="security-theft">Security & Theft Prevention</option>
-                  <option value="geo-fencing">Geo Fencing</option>
-                  <option value="smart-alerts">Smart Alerts</option>
-                  <option value="speed-monitoring">Speed Monitoring</option>
-                </select>
+                <div className="relative">
+                  <Sparkles className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <select
+                    id="service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white appearance-none"
+                  >
+                    <option value="fuel-tracking">Real-Time Fuel Tracking</option>
+                    <option value="live-tracking">Live Vehicle Tracking</option>
+                    <option value="speeding-alarm">Speeding Alarm</option>
+                    <option value="security-theft">Security & Theft Prevention</option>
+                    <option value="geo-fencing">Geo Fencing</option>
+                    <option value="smart-alerts">Smart Alerts</option>
+                    <option value="speed-monitoring">Speed Monitoring</option>
+                  </select>
+                </div>
               </div>
 
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
                   Subject
                 </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="How can we help you?"
-                />
+                <div className="relative">
+                  <MessageSquare className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white"
+                    placeholder="How can we help you?"
+                  />
+                </div>
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Message
                 </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                  placeholder="Your message here..."
-                ></textarea>
+                <div className="relative">
+                  <MessageCircle className="absolute left-3 top-3 text-orange-500 w-5 h-5" />
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={4}
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white/50 backdrop-blur-sm transition-all duration-300 hover:bg-white"
+                    placeholder="Your message here..."
+                  ></textarea>
+                </div>
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full py-3 px-6 rounded-lg text-white font-semibold transition-all duration-300
+                className={`w-full py-4 px-6 rounded-lg text-white font-semibold transition-all duration-300 relative overflow-hidden group
                   ${isSubmitting 
                     ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-orange-500 hover:bg-orange-600 hover:shadow-lg transform hover:-translate-y-0.5'
+                    : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-lg hover:shadow-orange-500/25'
                   }`}
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                <div className="absolute inset-0 w-full h-full transition-all duration-300 group-hover:bg-orange-600"></div>
+                <div className="relative flex items-center justify-center gap-2">
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                      <span>Send Message</span>
+                    </>
+                  )}
+                </div>
               </button>
 
               {submitStatus === 'success' && (
-                <div className="p-4 bg-green-100 text-green-700 rounded-lg">
+                <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2 animate-fade-in">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
                   Message sent successfully! We'll get back to you soon.
                 </div>
               )}
 
               {submitStatus === 'error' && (
-                <div className="p-4 bg-red-100 text-red-700 rounded-lg">
+                <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-2 animate-fade-in">
+                  <AlertCircle className="w-5 h-5 text-red-500" />
                   There was an error sending your message. Please try again.
                 </div>
               )}

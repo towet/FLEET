@@ -37,18 +37,24 @@ const ContactUs = () => {
     });
   };
 
+  const encode = (data: { [key: string]: string }) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      const form = e.target as HTMLFormElement;
-      const data = new FormData(form);
-      
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data as any).toString()
+        body: encode({ 
+          'form-name': 'contact',
+          ...formData
+        })
       });
 
       if (!response.ok) {
@@ -223,10 +229,16 @@ const ContactUs = () => {
               name="contact" 
               method="POST" 
               data-netlify="true"
+              netlify-honeypot="bot-field"
               onSubmit={handleSubmit} 
               className="space-y-6"
             >
               <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden">
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </p>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name

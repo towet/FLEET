@@ -197,10 +197,10 @@ function App() {
                     {service.description}
                   </p>
                   <div className="mt-4 flex items-center justify-between">
-                    <Link to={service.link || '#'} className="text-orange-500 font-semibold flex items-center gap-1 group-hover:text-orange-600 transition-colors duration-300">
-                      Learn More
-                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
-                    </Link>
+                    <div className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                      <span className="text-xs text-gray-500">Active</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -397,14 +397,10 @@ function App() {
                     </p>
 
                     {/* Interactive elements */}
-                    <div className="mt-4 md:mt-6 flex items-center justify-between">
-                      <button className="text-orange-500 text-sm md:text-base font-medium flex items-center gap-1 group-hover:text-orange-600 transition-colors duration-300">
-                        Learn More
-                        <ArrowRight className="w-3 h-3 md:w-4 md:h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
-                      </button>
+                    <div className="mt-4 md:mt-6 flex items-center justify-end">
                       <div className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                        <span className="text-xs md:text-sm text-gray-500">Active</span>
+                        <span className="text-xs text-gray-500">Active</span>
                       </div>
                     </div>
 
@@ -419,11 +415,7 @@ function App() {
           {/* Call to action - Adjusted for mobile */}
           <div className="mt-12 flex justify-center">
             <Link
-              to="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsQuoteOpen(true);
-              }}
+              to="/contact"
               className="inline-flex items-center gap-2 bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-all transform hover:scale-105"
             >
               Get Quote
@@ -648,10 +640,6 @@ function App() {
                       {faq.answer}
                     </p>
                     <div className="flex items-center gap-4 pt-4">
-                      <button className="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
-                        Learn More
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
                       <div className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                         <span className="text-xs text-gray-500">Updated Recently</span>

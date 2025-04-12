@@ -12,9 +12,7 @@ import {
   AtSign,
   MessageSquare,
   Sparkles,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
+
 } from 'lucide-react';
 
 const ContactUs = () => {
@@ -27,8 +25,7 @@ const ContactUs = () => {
     service: 'fuel-tracking' // Default service
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -37,44 +34,7 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const form = e.target as HTMLFormElement;
-      const formData = new FormData(form);
-      formData.append('form-name', 'contact');
 
-      const response = await fetch('/', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-        service: 'fuel-tracking'
-      });
-
-      // Reset the form
-      form.reset();
-    } catch (error) {
-      console.error('Error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus('idle'), 3000);
-    }
-  };
 
   const contactMethods = [
     {
@@ -227,7 +187,7 @@ const ContactUs = () => {
               method="POST" 
               data-netlify="true"
               netlify-honeypot="bot-field"
-              onSubmit={handleSubmit} 
+              action="/thank-you"
               className="space-y-6"
             >
               <input type="hidden" name="form-name" value="contact" />
@@ -356,42 +316,14 @@ const ContactUs = () => {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className={`w-full py-4 px-6 rounded-lg text-white font-semibold transition-all duration-300 relative overflow-hidden group
-                  ${isSubmitting 
-                    ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-lg hover:shadow-orange-500/25'
-                  }`}
+                className="w-full py-4 px-6 rounded-lg text-white font-semibold transition-all duration-300 relative overflow-hidden group bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-lg hover:shadow-orange-500/25"
               >
                 <div className="absolute inset-0 w-full h-full transition-all duration-300 group-hover:bg-orange-600"></div>
                 <div className="relative flex items-center justify-center gap-2">
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      <span>Send Message</span>
-                    </>
-                  )}
+                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  <span>Send Message</span>
                 </div>
               </button>
-
-              {submitStatus === 'success' && (
-                <div className="p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2 animate-fade-in">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  Message sent successfully! We'll get back to you soon.
-                </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-2 animate-fade-in">
-                  <AlertCircle className="w-5 h-5 text-red-500" />
-                  There was an error sending your message. Please try again.
-                </div>
-              )}
             </form>
           </div>
         </div>

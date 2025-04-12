@@ -42,12 +42,13 @@ const ContactUs = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:5000/api/send-email', {
+      const form = e.target as HTMLFormElement;
+      const data = new FormData(form);
+      
+      const response = await fetch('/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data as any).toString()
       });
 
       if (!response.ok) {
@@ -218,7 +219,14 @@ const ContactUs = () => {
           {/* Form Section */}
           <div className="p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form 
+              name="contact" 
+              method="POST" 
+              data-netlify="true"
+              onSubmit={handleSubmit} 
+              className="space-y-6"
+            >
+              <input type="hidden" name="form-name" value="contact" />
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name

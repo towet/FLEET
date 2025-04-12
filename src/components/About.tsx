@@ -4,12 +4,6 @@ import { FaShieldAlt, FaChartLine, FaSatelliteDish, FaTruck, FaIndustry } from '
 import { ArrowRight } from 'lucide-react';
 
 const About = () => {
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  };
-
   const features = [
     {
       icon: <GiDroplets className="text-4xl text-orange-500" />,
@@ -148,28 +142,6 @@ const About = () => {
             </div>
           </motion.div>
 
-          {/* Features Grid */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
-          >
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 * index, duration: 0.5 }}
-                className="bg-white/80 backdrop-blur-sm p-6 rounded-xl hover:shadow-lg transition-all duration-300 group"
-              >
-                <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-900">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
           {/* Main Content */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -200,6 +172,28 @@ const About = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* Features Grid */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-20"
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 * index, duration: 0.5 }}
+                className="bg-white/80 backdrop-blur-sm p-6 rounded-xl hover:shadow-lg transition-all duration-300 group"
+              >
+                <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
+                <h3 className="text-xl font-semibold mb-2 text-gray-900">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
 
           {/* Stats Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-20">

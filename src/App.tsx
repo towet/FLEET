@@ -1038,24 +1038,6 @@ function App() {
                   ))}
                 </div>
               </div>
-
-              <Link
-                to="/about"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                About Us
-              </Link>
-              <button
-                onClick={() => {
-                  setIsServicesOpen(false);
-                  setIsMobileMenuOpen(false);
-                  navigate('/contact');
-                }}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Contact
-              </button>
             </div>
           </div>
         </div>

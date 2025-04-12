@@ -18,7 +18,9 @@ import {
   Droplet,
   AlertTriangle,
   MapPin,
-  Bell
+  Bell,
+  Smartphone,
+  Download
 } from 'lucide-react';
 
 import heroImage from './assets/hero.png';
@@ -42,7 +44,7 @@ function App() {
     message: ''
   });
 
-  // Handle smooth scrolling
+  // Handle smooth scrolling and navigation
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -50,6 +52,11 @@ function App() {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  // Scroll to top when component mounts or route changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [navigate]); // Add navigate as dependency to trigger scroll on route change
 
   const MainContent = () => (
     <>
@@ -70,12 +77,24 @@ function App() {
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start stagger">
                 <button
-                  onClick={() => setIsQuoteOpen(true)}
+                  onClick={() => window.open('http://smartgps24.com/', '_blank')}
                   className="px-8 py-4 bg-orange-500 text-white rounded-xl font-semibold hover:bg-orange-600 
-                           transition-all duration-300 flex items-center gap-2 group"
+                           transition-all duration-300 flex items-center gap-2 group shadow-lg hover:shadow-xl"
                 >
                   Request Free Demo
                   <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
+                </button>
+                <button
+                  onClick={() => window.open('https://www.gps-server.net/gps-server-mobile', '_blank')}
+                  className="px-8 py-4 bg-transparent text-orange-500 rounded-xl font-semibold
+                           border-2 border-orange-500 hover:bg-orange-50 transition-all duration-300 flex items-center gap-3 group
+                           shadow-lg hover:shadow-xl relative overflow-hidden"
+                >
+                  <div className="flex items-center gap-3 relative z-10">
+                    <Smartphone className="w-6 h-6" />
+                    <span>Download App</span>
+                    <Download className="w-5 h-5 transform group-hover:translate-y-1 transition-transform duration-300" />
+                  </div>
                 </button>
               </div>
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 mt-8">
@@ -197,10 +216,10 @@ function App() {
                     {service.description}
                   </p>
                   <div className="mt-4 flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                      <span className="text-xs text-gray-500">Active</span>
-                    </div>
+                    <Link to={service.link || '#'} className="text-orange-500 font-semibold flex items-center gap-1 group-hover:text-orange-600 transition-colors duration-300">
+                      Learn More
+                      <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -400,7 +419,7 @@ function App() {
                     <div className="mt-4 md:mt-6 flex items-center justify-end">
                       <div className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                        <span className="text-xs text-gray-500">Active</span>
+                        <span className="text-xs md:text-sm text-gray-500">Active</span>
                       </div>
                     </div>
 
@@ -413,7 +432,7 @@ function App() {
           </div>
 
           {/* Call to action - Adjusted for mobile */}
-          <div className="mt-12 flex justify-center">
+          <div className="mt-12 flex justify-center gap-4">
             <Link
               to="/contact"
               className="inline-flex items-center gap-2 bg-orange-500 text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition-all transform hover:scale-105"
@@ -421,6 +440,15 @@ function App() {
               Get Quote
               <ArrowRight className="w-5 h-5" />
             </Link>
+            <a
+              href="http://smartgps24.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105"
+            >
+              Free Demo
+              <ArrowRight className="w-5 h-5" />
+            </a>
           </div>
         </div>
 
@@ -640,6 +668,10 @@ function App() {
                       {faq.answer}
                     </p>
                     <div className="flex items-center gap-4 pt-4">
+                      <button className="text-orange-500 hover:text-orange-600 text-sm font-medium flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
+                        Learn More
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
                       <div className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                         <span className="text-xs text-gray-500">Updated Recently</span>
@@ -938,7 +970,7 @@ function App() {
           {/* Mobile Menu */}
           <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'} py-4`}>
             <div className="flex flex-col gap-4">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Home</Link>
+              <Link to="/" onClick={() => { setIsMobileMenuOpen(false); window.scrollTo(0, 0); }} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Home</Link>
               <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">About Us</Link>
               <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-orange-500 transition-colors px-4">Contact Us</Link>
               {/* Mobile Services Menu */}

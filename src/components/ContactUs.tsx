@@ -76,15 +76,15 @@ const ContactUs = () => {
     {
       icon: Phone,
       label: 'Phone',
-      value: '+254 712 345 678',
-      link: 'tel:+254712345678',
+      value: '+254 798888658',
+      link: 'tel:',
       color: 'bg-gradient-to-r from-blue-400 to-blue-600'
     },
     {
       icon: Mail,
       label: 'Email',
-      value: 'frankyfreaky103@gmail.com',
-      link: 'mailto:frankyfreaky103@gmail.com',
+      value: 'dee3ayahmed25@gmail.com',
+      link: 'mailto:dee3ayahmed25@gmail.com',
       color: 'bg-gradient-to-r from-red-400 to-red-600'
     },
     {

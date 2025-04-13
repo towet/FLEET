@@ -1062,7 +1062,7 @@ function App() {
           </div>
         </div>
       </nav>
-      <WhatsAppButton phoneNumber="+254795704273" />
+      <WhatsAppButton phoneNumber="+254798888658" />
 
       <Routes>
         <Route path="/" element={<MainContent />} />

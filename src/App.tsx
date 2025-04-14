@@ -69,7 +69,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 text-center lg:text-left reveal">
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900">
-                Defts Tracking
+                Defts  Tracking solutions
                 <span className="text-orange-500 block">For Modern Fleets</span>
               </h1>
               <p className="text-xl text-gray-600 reveal-from-left delay-200">
@@ -237,7 +237,7 @@ function App() {
             <div className="space-y-8 reveal">
               <div>
                 <span className="text-orange-500 font-semibold text-lg mb-4 block reveal-from-bottom">Why Choose Us</span>
-                <h2 className="text-4xl font-bold mb-6 text-gray-900">Transform Your Fleet with Deezay Ecofuel</h2>
+                <h2 className="text-4xl font-bold mb-6 text-gray-900">Transform Your Fleet with Deezay Ecofuel Tracking solutions </h2>
                 <p className="text-gray-600 text-lg leading-relaxed">
                   Leading innovator in real-time fuel monitoring and GPS fleet tracking solutions. Our advanced system helps businesses reduce fuel costs by up to 30% through precise consumption tracking, anti-theft protection, and comprehensive fleet management.
                 </p>

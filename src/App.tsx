@@ -69,7 +69,7 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 text-center lg:text-left reveal">
               <h1 className="text-5xl lg:text-6xl font-bold text-gray-900">
-                Smart Fuel Tracking
+                Defts Tracking
                 <span className="text-orange-500 block">For Modern Fleets</span>
               </h1>
               <p className="text-xl text-gray-600 reveal-from-left delay-200">

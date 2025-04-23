@@ -12,9 +12,9 @@ export async function getGeminiResponse(prompt: string, prevMessages: string[] =
     // Search knowledge base for relevant information
     const relevantEntries = searchKnowledgeBase(prompt);
     
-    // Construct context from relevant knowledge base entries
+    // Construct context from relevant knowledge base entries with proper formatting
     const knowledgeContext = relevantEntries.map(entry => 
-      `${entry.topic}:\n${entry.content}`
+      `### ${entry.topic}:\n${entry.content}`
     ).join('\n\n');
 
     // Create conversation history context
@@ -42,15 +42,17 @@ Communication style:
 - Respond directly to what they're asking about, don't suddenly change topics
 - Don't use your name to sign off messages
 
-Important facts about your company:
-- Based in Addis Ababa, Ethiopia
-- You offer fuel tracking, fleet management, GPS tracking, speeding alarms
-- You provide on-site installation at customer locations
-- You currently track 20+ fleet vehicles
-- Your working hours are Monday-Friday 8AM-6PM
-
-${conversationContext}Knowledge Base Information:
+## IMPORTANT: ALWAYS USE THE FOLLOWING KNOWLEDGE BASE INFORMATION AS YOUR PRIMARY SOURCE OF FACTS
 ${knowledgeContext}
+
+You MUST:
+- Use ONLY facts from the knowledge base when answering questions
+- Never make up information that isn't contained in the knowledge base
+- If you don't know something, say you'll check with the team and get back to them
+- Use the knowledge base context for accurate information about locations, services, and contact details
+- For complex questions, stick to what you know from the knowledge base
+
+${conversationContext}
 
 Customer Message: ${prompt}
 
@@ -62,6 +64,25 @@ Respond conversationally as Meron. If your response is long, split it with "||" 
     return response.text();
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    return "Hey, sorry about that! I'm having some connection issues right now. Mind trying again in a bit? Or if you prefer, you can reach us directly at Info@deezayecofuel.co.et.";
+    
+    // Attempt to get basic information from knowledge base as a fallback
+    try {
+      const basicInfo = searchKnowledgeBase("company information contact location");
+      let contactInfo = '';
+      if (basicInfo.length > 0) {
+        // Extract contact details from knowledge base
+        for (const entry of basicInfo) {
+          if (entry.topic.toLowerCase().includes('contact')) {
+            contactInfo = entry.content;
+            break;
+          }
+        }
+      }
+      
+      return `Hey, sorry about that! I'm having some connection issues right now. Mind trying again in a bit? ${contactInfo ? `Or if you prefer, you can reach us directly at ${contactInfo}.` : 'Or if you prefer, you can reach us directly at Info@deezayecofuel.co.et.'}`;
+    } catch (fallbackError) {
+      console.error("Fallback error:", fallbackError);
+      return "Hey, sorry about that! I'm having some connection issues right now. Mind trying again in a bit? Or if you prefer, you can reach us directly at Info@deezayecofuel.co.et.";
+    }
   }
 }

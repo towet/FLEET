@@ -11,6 +11,7 @@ import LiveTracking from './components/LiveTracking';
 import About from './components/About';
 import ContactUs from './components/ContactUs';
 import KnowledgeAdmin from './components/KnowledgeAdmin';
+import { extractWebsiteContent, extractStaticContent } from './lib/ai/websiteExtractor';
 import {
   Shield,
   TrendingUp,
@@ -116,6 +117,27 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [navigate]); // Add navigate as dependency to trigger scroll on route change
+
+  // Initialize AI knowledge base with website content and static information
+  useEffect(() => {
+    const initializeKnowledgeBase = async () => {
+      try {
+        console.log('Initializing knowledge base with static content...');
+        // First add static content (will always work)
+        await extractStaticContent();
+        
+        // Then try to extract website content (only works when DOM is loaded)
+        console.log('Attempting to extract website content...');
+        await extractWebsiteContent();
+        
+        console.log('Knowledge base initialization complete!');
+      } catch (error) {
+        console.error('Error initializing knowledge base:', error);
+      }
+    };
+    
+    initializeKnowledgeBase();
+  }, []);
 
   const MainContent = () => (
     <>

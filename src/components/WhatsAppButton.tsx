@@ -3,6 +3,8 @@ import { FaWhatsapp, FaPaperPlane, FaSmile, FaPaperclip, FaMicrophone } from 're
 import { useState, useRef, useEffect } from 'react';
 import { IoMdCheckmarkCircle, IoMdClose } from 'react-icons/io';
 import { FiMoreVertical, FiChevronLeft, FiVideo, FiPhone } from 'react-icons/fi';
+import { getGeminiResponse } from '../lib/ai/gemini';
+import { extractWebsiteContent, extractStaticContent } from '../lib/ai/websiteExtractor';
 
 interface WhatsAppButtonProps {
   // No props needed
@@ -21,14 +23,47 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: 'Hello! How can we help you today?',
+      text: 'Hi there! How can I help you with our fleet management solutions today?',
       sender: 'business',
-      time: '14:21'
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
     }
   ]);
   const [typing, setTyping] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [contentExtracted, setContentExtracted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  
+  // Initialize website content extraction once
+  useEffect(() => {
+    const initializeKnowledgeBase = async () => {
+      if (!contentExtracted) {
+        try {
+          // First add static content
+          await extractStaticContent();
+          
+          // Then extract dynamic content from the DOM
+          // This will run after the component is mounted and DOM is available
+          if (typeof window !== 'undefined') {
+            setTimeout(() => {
+              extractWebsiteContent()
+                .then(() => {
+                  console.log('Website content successfully extracted into knowledge base');
+                  setContentExtracted(true);
+                })
+                .catch(err => {
+                  console.error('Error extracting website content:', err);
+                });
+            }, 2000); // Wait for 2 seconds to ensure DOM is fully loaded
+          }
+        } catch (error) {
+          console.error('Error initializing knowledge base:', error);
+        }
+      }
+    };
+    
+    initializeKnowledgeBase();
+  }, [contentExtracted]);
   
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -49,7 +84,29 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = () => {
     }
   };
   
-  const handleSendMessage = () => {
+  // Get conversation history as string array for context
+  const getConversationHistory = () => {
+    // Return last 6 messages as context (or all if less than 6)
+    const contextMessages = messages.slice(-6);
+    return contextMessages.map(msg => `${msg.sender === 'user' ? 'Customer' : 'Meron'}: ${msg.text}`);
+  };
+  
+  // Function to calculate a human-like typing delay
+  const getTypingDelay = (text: string) => {
+    // Average human types 40-60 WPM, so about 1 character every 200-300ms
+    // We'll use 30-60ms per character to make it reasonably fast but still human-like
+    const baseDelay = 500; // minimum thinking time
+    const charDelay = Math.floor(Math.random() * 30) + 30; // 30-60ms per character
+    return baseDelay + (text.length * charDelay);
+  };
+  
+  // Add a little randomness to typing patterns
+  const randomTypingPause = () => {
+    // Occasionally pause while typing to simulate thinking
+    return Math.random() > 0.7 ? Math.floor(Math.random() * 800) + 400 : 0;
+  };
+  
+  const handleSendMessage = async () => {
     if (userMessage.trim() === '') return;
     
     // Add user message
@@ -60,40 +117,84 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = () => {
       time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
     };
     
-    setMessages([...messages, newUserMessage]);
+    setMessages(prev => [...prev, newUserMessage]);
     setUserMessage('');
     
     // Simulate business typing
     setTyping(true);
+    setError(null);
     
-    // Simulate business reply after a delay
-    setTimeout(() => {
-      setTyping(false);
+    try {
+      // Get conversation history for context
+      const conversationHistory = getConversationHistory();
       
-      let replyText = '';
+      // Get AI response from Gemini
+      const aiResponse = await getGeminiResponse(newUserMessage.text, conversationHistory);
       
-      // Smart replies based on user message
-      if (userMessage.toLowerCase().includes('price') || userMessage.toLowerCase().includes('cost')) {
-        replyText = 'Our tracking systems start from $10/month per vehicle. Would you like a detailed quote?';
-      } else if (userMessage.toLowerCase().includes('demo') || userMessage.toLowerCase().includes('trial')) {
-        replyText = 'Yes, we offer a free demo! When would be a good time to schedule one for you?';
-      } else if (userMessage.toLowerCase().includes('install') || userMessage.toLowerCase().includes('setup')) {
-        replyText = 'Installation is quick and easy, usually takes less than 30 minutes per vehicle. Our technicians can come to your location.';
-      } else if (userMessage.toLowerCase().includes('support') || userMessage.toLowerCase().includes('help')) {
-        replyText = 'Our support team is available 24/7. How can we assist you today?';
-      } else {
-        replyText = 'Thank you for your message. One of our representatives will follow up with you shortly. Is there anything specific you would like to know about our services?';
+      // Check if the response should be split into multiple messages
+      const splitResponses = aiResponse.split('||').map(text => text.trim()).filter(text => text.length > 0);
+      
+      // Add each split response as a separate message with a delay between them
+      for (let i = 0; i < splitResponses.length; i++) {
+        const responseText = splitResponses[i];
+        
+        // Calculate typing delay based on message length
+        const typingDelay = getTypingDelay(responseText);
+        const additionalPause = randomTypingPause();
+        
+        // If this is the first message, add a delay before it appears
+        if (i === 0) {
+          await new Promise(resolve => setTimeout(resolve, typingDelay + additionalPause));
+          setTyping(false);
+        } else {
+          // For subsequent messages, pause between messages and show typing indicator again
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Pause between messages
+          setTyping(true);
+          await new Promise(resolve => setTimeout(resolve, typingDelay + additionalPause));
+          setTyping(false);
+        }
+        
+        // Add this part of the response as a new message
+        const newBusinessMessage = {
+          id: messages.length + 2 + i,
+          text: responseText,
+          sender: 'business' as const,
+          time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+        };
+        
+        setMessages(prev => [...prev, newBusinessMessage]);
       }
       
-      const newBusinessMessage = {
+      // If there were no split responses, just add the whole thing as one message
+      if (splitResponses.length === 0) {
+        const typingDelay = getTypingDelay(aiResponse);
+        await new Promise(resolve => setTimeout(resolve, typingDelay));
+        setTyping(false);
+        
+        const newBusinessMessage = {
+          id: messages.length + 2,
+          text: aiResponse,
+          sender: 'business' as const,
+          time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+        };
+        
+        setMessages(prev => [...prev, newBusinessMessage]);
+      }
+    } catch (err) {
+      console.error('Error getting AI response:', err);
+      setTyping(false);
+      setError('Sorry, there was an issue generating a response. Please try again.');
+      
+      // Fallback response
+      const fallbackMessage = {
         id: messages.length + 2,
-        text: replyText,
+        text: "Hey, sorry about that! I'm having some connection issues right now. Mind trying again in a bit?",
         sender: 'business' as const,
         time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
       };
       
-      setMessages(prev => [...prev, newBusinessMessage]);
-    }, 1500);
+      setMessages(prev => [...prev, fallbackMessage]);
+    }
   };
   
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -225,6 +326,13 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = () => {
                   <div className="w-2 h-2 rounded-full bg-gray-500 animate-bounce"></div>
                   <div className="w-2 h-2 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   <div className="w-2 h-2 rounded-full bg-gray-500 animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="flex justify-start">
+                <div className="bg-white p-3 rounded-lg max-w-[80%] text-red-500">
+                  {error}
                 </div>
               </div>
             )}

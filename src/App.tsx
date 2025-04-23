@@ -10,6 +10,7 @@ import SpeedMonitoring from './components/SpeedMonitoring';
 import LiveTracking from './components/LiveTracking';
 import About from './components/About';
 import ContactUs from './components/ContactUs';
+import KnowledgeAdmin from './components/KnowledgeAdmin';
 import {
   Shield,
   TrendingUp,
@@ -29,6 +30,61 @@ import {
 import heroImage from './assets/hero.png';
 import WhatsAppButton from './components/WhatsAppButton';
 import deezayLogo from './assets/Defts Final Logo\' PNG-01.png';
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  
+  // Simple authentication using password
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simple password protection - in a real app, use proper authentication
+    if (password === 'deezayadmin') {
+      setIsAuthenticated(true);
+      localStorage.setItem('isAdminAuthenticated', 'true');
+    } else {
+      alert('Invalid password');
+    }
+  };
+  
+  // Check if user is already authenticated
+  useEffect(() => {
+    const authStatus = localStorage.getItem('isAdminAuthenticated');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+  
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Admin Login</h2>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-gray-700 mb-2">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition-colors"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+  
+  return <>{children}</>;
+};
 
 function App() {
   const navigate = useNavigate();
@@ -723,7 +779,7 @@ function App() {
         {/* Subtle pattern overlay */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2H36zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2H36zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
             backgroundSize: '30px 30px'
           }}></div>
         </div>
@@ -808,6 +864,7 @@ function App() {
                 <Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
                 <Link to="/about" className="text-gray-400 hover:text-white transition-colors">About Us</Link>
                 <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</Link>
+                <Link to="/admin/knowledge" className="text-gray-400 hover:text-white transition-colors">Admin</Link>
                 <button onClick={() => setIsQuoteOpen(true)} className="text-gray-400 hover:text-white transition-colors text-left">
                   Get Quote
                 </button>
@@ -1181,6 +1238,11 @@ ${quoteForm.message}`,
         <Route path="/smart-alerts" element={<SmartAlerts />} />
         <Route path="/speed-monitoring" element={<SpeedMonitoring />} />
         <Route path="/live-tracking" element={<LiveTracking />} />
+        <Route path="/admin/knowledge" element={
+          <ProtectedRoute>
+            <KnowledgeAdmin />
+          </ProtectedRoute>
+        } />
       </Routes>
 
       {/* Quote Request Popup */}

@@ -6,15 +6,12 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
+    // Ensure Google Generative AI is included in optimization
+    include: ['@google/generative-ai']
   },
   build: {
     rollupOptions: {
-      external: ['@google/generative-ai'],
-      output: {
-        globals: {
-          '@google/generative-ai': 'GoogleGenerativeAI'
-        }
-      }
+      // No longer making the package external
     }
   }
 });

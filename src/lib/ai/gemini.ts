@@ -1,5 +1,5 @@
-// We'll use type annotation later, no need for explicit import
-// The actual GoogleGenerativeAI class will be dynamically imported
+// Import directly instead of dynamically to ensure it's properly bundled
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { searchKnowledgeBase } from "./knowledgeBase";
 
 // Initialize with your API key from Google AI Studio
@@ -7,17 +7,8 @@ import { searchKnowledgeBase } from "./knowledgeBase";
 // Replace this with your actual API key
 const GEMINI_API_KEY = "AIzaSyDuWyN3Cz490QF5Zp1f10kUOy8yLB8UqjU"; // This is a placeholder, you'll need to use your own key
 
-// Create a function to dynamically import and initialize the Gemini API
-async function getGeminiAI() {
-  try {
-    // Dynamic import to avoid build errors
-    const { GoogleGenerativeAI } = await import("@google/generative-ai");
-    return new GoogleGenerativeAI(GEMINI_API_KEY);
-  } catch (error) {
-    console.error("Failed to load GoogleGenerativeAI:", error);
-    return null;
-  }
-}
+// Create a Gemini instance with error handling
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 export async function getGeminiResponse(prompt: string, prevMessages: string[] = []) {
   try {
@@ -68,11 +59,8 @@ Customer Message: ${prompt}
 
 Respond conversationally as Meron. If your response is long, split it with "||" between each 2-3 sentence chunk.`;
 
-    // Get Gemini AI instance
-    const genAI = await getGeminiAI();
-    if (!genAI) {
-      throw new Error('Failed to initialize Gemini AI');
-    }
+    // GenAI is already initialized at the top of the file
+    // so we can use it directly here
     
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent(fullPrompt);

@@ -8,6 +8,13 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   build: {
-    rollupOptions: {}
+    rollupOptions: {
+      external: ['@google/generative-ai'],
+      output: {
+        globals: {
+          '@google/generative-ai': 'GoogleGenerativeAI'
+        }
+      }
+    }
   }
 });

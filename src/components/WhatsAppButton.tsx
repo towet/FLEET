@@ -132,7 +132,7 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = () => {
       const aiResponse = await getGeminiResponse(newUserMessage.text, conversationHistory);
       
       // Check if the response should be split into multiple messages
-      const splitResponses = aiResponse.split('||').map(text => text.trim()).filter(text => text.length > 0);
+      const splitResponses = aiResponse.split('||').map((text: string) => text.trim()).filter((text: string) => text.length > 0);
       
       // Add each split response as a separate message with a delay between them
       for (let i = 0; i < splitResponses.length; i++) {

@@ -14,16 +14,6 @@ export default defineConfig({
     // Ensure proper module resolution in the build
     commonjsOptions: {
       transformMixedEsModules: true
-    },
-    rollupOptions: {
-      // Explicitly mark @google/generative-ai as external
-      external: ['@google/generative-ai'],
-      output: {
-        // Provide global variable name for the external package
-        globals: {
-          '@google/generative-ai': 'GoogleGenerativeAI'
-        }
-      }
     }
   }
 });

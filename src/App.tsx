@@ -20,7 +20,10 @@ import {
   MapPin,
   Bell,
   Smartphone,
-  Download
+  Download,
+  Phone,
+  Mail,
+  Clock
 } from 'lucide-react';
 
 import heroImage from './assets/hero.png';
@@ -287,7 +290,7 @@ function App() {
               <div className="grid grid-cols-2 gap-8">
                 {[
                   {
-                    stat: "500+",
+                    stat: "20+",
                     label: "Fleet Vehicles Tracked"
                   },
                   {
@@ -760,12 +763,59 @@ function App() {
       {/* Footer */}
       <footer className="bg-gray-900 py-12 text-white">
         <div className="container mx-auto px-6">
-          <div className="flex items-center justify-center mb-8 reveal-scale">
-            <div className="flex items-center gap-3">
-              <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-auto h-16" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Logo and About */}
+            <div className="flex flex-col items-center md:items-start">
+              <div className="flex items-center gap-4 mb-4">
+                <img src={deezayLogo} alt="Deezay Ecofuel Logo" className="w-auto h-16" />
+              </div>
+              <p className="text-gray-400 text-sm text-center md:text-left">
+                Leading provider of fuel tracking and fleet management solutions in Eastern Africa.
+              </p>
+            </div>
+            
+            {/* Contact Info */}
+            <div className="flex flex-col items-center md:items-start">
+              <h3 className="text-lg font-semibold mb-4 text-orange-400">Contact Us</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-orange-400" />
+                  <a href="tel:+254798888658" className="text-gray-400 hover:text-white transition-colors">
+                    +254 798888658
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-orange-400" />
+                  <a href="mailto:Info@deezayecofuel.co.et" className="text-gray-400 hover:text-white transition-colors">
+                    Info@deezayecofuel.co.et
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-orange-400" />
+                  <span className="text-gray-400">Addis Ababa, Ethiopia</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-orange-400" />
+                  <span className="text-gray-400">Mon-Fri: 8AM - 6PM</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Quick Links */}
+            <div className="flex flex-col items-center md:items-start">
+              <h3 className="text-lg font-semibold mb-4 text-orange-400">Quick Links</h3>
+              <div className="flex flex-col space-y-2">
+                <Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
+                <Link to="/about" className="text-gray-400 hover:text-white transition-colors">About Us</Link>
+                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</Link>
+                <button onClick={() => setIsQuoteOpen(true)} className="text-gray-400 hover:text-white transition-colors text-left">
+                  Get Quote
+                </button>
+              </div>
             </div>
           </div>
-          <div className="text-center text-gray-400">
+          
+          <div className="border-t border-gray-800 pt-6 text-center text-gray-400">
             <p>&copy; 2024 Deezay Ecofuel. All rights reserved.</p>
           </div>
         </div>
@@ -1118,19 +1168,19 @@ ${quoteForm.message}`,
           </div>
         </div>
       </nav>
-      <WhatsAppButton phoneNumber="+254798888658" />
+      <WhatsAppButton />
 
       <Routes>
         <Route path="/" element={<MainContent />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/fuel-tracking" element={<FuelTracking />} />
-        <Route path="/live-tracking" element={<LiveTracking />} />
         <Route path="/speeding-alarm" element={<SpeedingAlarm />} />
         <Route path="/security-theft" element={<SecurityTheft />} />
         <Route path="/geo-fencing" element={<GeoFencing />} />
         <Route path="/smart-alerts" element={<SmartAlerts />} />
         <Route path="/speed-monitoring" element={<SpeedMonitoring />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/live-tracking" element={<LiveTracking />} />
       </Routes>
 
       {/* Quote Request Popup */}

@@ -12,6 +12,7 @@ import About from './components/About';
 import ContactUs from './components/ContactUs';
 import KnowledgeAdmin from './components/KnowledgeAdmin';
 import { extractWebsiteContent, extractStaticContent } from './lib/ai/websiteExtractor';
+import { initializeKnowledgeBase } from './lib/ai/knowledgeBase';
 import {
   Shield,
   TrendingUp,
@@ -121,10 +122,14 @@ function App() {
 
   // Initialize AI knowledge base with website content and static information
   useEffect(() => {
-    const initializeKnowledgeBase = async () => {
+    const initializeAI = async () => {
       try {
-        console.log('Initializing knowledge base with static content...');
-        // First add static content (will always work)
+        console.log('Initializing knowledge base from server...');
+        // First initialize the knowledge base from the server
+        await initializeKnowledgeBase();
+        
+        // Then add static content if needed
+        console.log('Adding static content...');
         await extractStaticContent();
         
         // Then try to extract website content (only works when DOM is loaded)
@@ -137,7 +142,7 @@ function App() {
       }
     };
     
-    initializeKnowledgeBase();
+    initializeAI();
   }, []);
 
   const MainContent = () => (

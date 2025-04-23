@@ -1,5 +1,9 @@
 import { KnowledgeEntry } from '../../data/knowledgeBase';
-import { addKnowledgeEntry } from './knowledgeBase';
+import { addKnowledgeEntry, getKnowledgeEntries } from './knowledgeBase';
+
+// Unique identifiers for system-extracted content
+const CONTENT_SOURCE = 'website_extractor';
+const WEBSITE_ENTRIES_KEY = 'deezay_extracted_website_entries';
 
 // Function to extract content from website components and add to knowledge base
 export const extractWebsiteContent = async () => {
@@ -8,7 +12,7 @@ export const extractWebsiteContent = async () => {
     const extractedEntries: KnowledgeEntry[] = [];
     
     // Extract content from DOM elements once the page is loaded
-    const extractContent = () => {
+    const extractContent = async () => {
       // Extract company information from footer
       const footerInfo = document.querySelector('footer');
       if (footerInfo) {
@@ -86,20 +90,52 @@ export const extractWebsiteContent = async () => {
         }
       });
       
-      // Add all extracted entries to knowledge base
-      extractedEntries.forEach(async entry => {
-        try {
-          await addKnowledgeEntry(entry);
-        } catch (error) {
-          console.error('Error adding extracted entry to knowledge base:', error);
+      // Check if entries already exist to avoid duplicates
+      try {
+        const existingEntries = await getKnowledgeEntries();
+        
+        // Tag all extracted entries with source identifier
+        const taggedEntries = extractedEntries.map(entry => ({
+          ...entry,
+          source: CONTENT_SOURCE,
+          extraction_date: new Date().toISOString()
+        }));
+        
+        // Save unique identifier list to localStorage for cleanup later
+        const extractedTopics = taggedEntries.map(entry => entry.topic);
+        localStorage.setItem(WEBSITE_ENTRIES_KEY, JSON.stringify(extractedTopics));
+        
+        // Add each entry, avoiding duplicates by topic
+        for (const entry of taggedEntries) {
+          // Check if this topic already exists
+          const existingEntry = existingEntries.find(e => e.topic === entry.topic);
+          
+          if (!existingEntry) {
+            // New entry - add it
+            console.log('Adding extracted website content:', entry.topic);
+            try {
+              await addKnowledgeEntry(entry);
+            } catch (error) {
+              console.error('Error adding extracted entry to knowledge base:', error);
+            }
+          } else if (existingEntry.source === CONTENT_SOURCE) {
+            // Existing website-extracted entry - update it if needed
+            // This would require implementing an update function
+            console.log('Website content already exists for:', entry.topic);
+          } else {
+            // Existing manually-added entry - don't overwrite
+            console.log('Manual entry already exists for:', entry.topic);
+          }
         }
-      });
+      } catch (error) {
+        console.error('Error processing extracted entries:', error);
+      }
       
       console.log(`Extracted ${extractedEntries.length} content entries from website`);
     };
     
     // Use MutationObserver to wait for content to load
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(async (mutations) => {
       // Wait for significant changes to the DOM
       const significantChanges = mutations.some(mutation => 
         mutation.addedNodes.length > 5 || 
@@ -108,10 +144,9 @@ export const extractWebsiteContent = async () => {
       
       if (significantChanges) {
         // Wait a bit for everything to render
-        setTimeout(() => {
-          extractContent();
-          observer.disconnect();
-        }, 2000);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await extractContent();
+        observer.disconnect();
       }
     });
     
@@ -123,8 +158,8 @@ export const extractWebsiteContent = async () => {
     });
     
     // Fallback - extract after 5 seconds anyway
-    setTimeout(() => {
-      extractContent();
+    setTimeout(async () => {
+      await extractContent();
       observer.disconnect();
     }, 5000);
     
@@ -161,12 +196,35 @@ export const extractStaticContent = async () => {
   ];
   
   // Add static entries to knowledge base
-  for (const entry of staticEntries) {
-    try {
-      await addKnowledgeEntry(entry);
-    } catch (error) {
-      console.error('Error adding static entry to knowledge base:', error);
+  try {
+    const existingEntries = await getKnowledgeEntries();
+    
+    // Tag static entries with source
+    const taggedEntries = staticEntries.map(entry => ({
+      ...entry,
+      source: 'static_content',
+      extraction_date: new Date().toISOString()
+    }));
+    
+    // Add each entry if it doesn't exist yet
+    for (const entry of taggedEntries) {
+      // Check if this topic already exists
+      const existingEntry = existingEntries.find(e => e.topic === entry.topic);
+      
+      if (!existingEntry) {
+        // New entry - add it
+        console.log('Adding static content:', entry.topic);
+        try {
+          await addKnowledgeEntry(entry);
+        } catch (error) {
+          console.error('Error adding static entry to knowledge base:', error);
+        }
+      } else {
+        console.log('Entry already exists for:', entry.topic);
+      }
     }
+  } catch (error) {
+    console.error('Error processing static entries:', error);
   }
   
   return staticEntries;

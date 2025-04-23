@@ -4,6 +4,9 @@ export interface KnowledgeEntry {
   category: 'services' | 'support' | 'pricing' | 'installation' | 'general';
   created_by: string;
   created_at?: string;
+  updated_at?: string;
+  source?: string;
+  extraction_date?: string;
 }
 
 export const initialKnowledgeBase: KnowledgeEntry[] = [

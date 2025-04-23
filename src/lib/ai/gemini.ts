@@ -1,10 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { searchKnowledgeBase } from "./knowledgeBase";
 
-// Initialize with your API key from Google AI Studio
-// Get a key at: https://makersuite.google.com/app/apikey 
-// Replace this with your actual API key
-const GEMINI_API_KEY = "AIzaSyDuWyN3Cz490QF5Zp1f10kUOy8yLB8UqjU"; // This is a placeholder, you'll need to use your own key
+// WARNING: Avoid hardcoding API keys. Use environment variables.
+const GEMINI_API_KEY = "AIzaSyDqPkozpfOi-MR_C87yOZZZuG3LuHxet7k";
 
 // Create a Gemini instance with error handling
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);

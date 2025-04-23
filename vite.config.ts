@@ -9,11 +9,21 @@ export default defineConfig({
   })],
   optimizeDeps: {
     exclude: ['lucide-react'],
+    include: ['@google/generative-ai'] // Ensure Gemini API is pre-bundled
   },
   build: {
     // Ensure proper module resolution in the build
     commonjsOptions: {
       transformMixedEsModules: true
+    },
+    // Make sure we're not externalizing any modules that should be bundled
+    rollupOptions: {
+      external: []
     }
+  },
+  // Improve module resolution for npm packages
+  resolve: {
+    mainFields: ['browser', 'module', 'main'],
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
   }
 });

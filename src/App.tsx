@@ -25,7 +25,8 @@ import {
   Download,
   Phone,
   Mail,
-  Clock
+  Clock,
+  Settings
 } from 'lucide-react';
 
 import heroImage from './assets/hero.png';
@@ -105,7 +106,7 @@ function App() {
   });
 
   // Handle smooth scrolling and navigation
-  const scrollToSection = (sectionId: string) => {
+  const handleSmoothScroll = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       setIsMobileMenuOpen(false);
@@ -774,7 +775,7 @@ function App() {
               <div className="text-left">
                 <p className="text-gray-600 mb-2 text-lg">Still have questions?</p>
                 <button
-                  onClick={() => setIsContactOpen(true)}
+                  onClick={() => setIsQuoteOpen(true)}
                   className="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-2.5 rounded-lg hover:bg-orange-600 transition-all transform group-hover:translate-x-1"
                 >
                   Contact Our Experts
@@ -886,7 +887,9 @@ function App() {
                 <Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
                 <Link to="/about" className="text-gray-400 hover:text-white transition-colors">About Us</Link>
                 <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">Contact Us</Link>
-                <Link to="/admin/knowledge" className="text-gray-400 hover:text-white transition-colors">Admin</Link>
+                <Link to="/admin/knowledge" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-orange-400" /> Admin Panel
+                </Link>
                 <button onClick={() => setIsQuoteOpen(true)} className="text-gray-400 hover:text-white transition-colors text-left">
                   Get Quote
                 </button>
@@ -1118,6 +1121,9 @@ ${quoteForm.message}`,
                 >
                   Get Quote
                 </button>
+                <Link to="/admin/knowledge" className="text-white hover:text-gray-300 transition-colors duration-200 flex items-center gap-1">
+                  <Settings className="w-4 h-4" /> Admin
+                </Link>
               </div>
 
             </div>
